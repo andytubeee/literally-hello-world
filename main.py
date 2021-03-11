@@ -3,6 +3,7 @@ import random
 import time
 from functools import partial
 
+from letters.EmptyFile import writeEmptyFile
 from letters.H import writeH
 from letters.E import writeE
 from letters.L import writeL
@@ -15,6 +16,12 @@ from letters.Explanation import writeExplanation
 from letters.NewLine import writeNewLine
 
 fileName = 'printMe'
+
+if os.path.exists(fileName):
+    os.remove(fileName)
+
+writeEmptyFile(fileName)
+
 writeFunctions = [
     partial(writeH, fileName),
     partial(writeE, fileName),
@@ -32,16 +39,15 @@ writeFunctions = [
 
 random.shuffle(writeFunctions)
 
-while randomOrder != correctOrder:
-    random.shuffle(randomOrder)
-    [callFunc() for callFunc in randomOrder]
-    writeNewLine(fileName)
-    file = open(fileName, 'r')
-    print(file.readline())
-    time.sleep(1)
-
-
 file = open(fileName, 'r')
+
+while str(file.read().split('\n')[-1]) != "Hello World!":
+    [callFunc() for callFunc in writeFunctions]
+    writeNewLine(fileName)
+    print(file.readline())
+    random.shuffle(writeFunctions)
+    time.sleep(0.5)
+
 file.close()
 if os.path.exists(fileName):
     os.remove(fileName)
