@@ -51,3 +51,7 @@ while str(file.read().split('\n')[-1]) != "Hello World!":
 file.close()
 if os.path.exists(fileName):
     os.remove(fileName)
+    
+    
+    
+input("Okay so that's it...")
